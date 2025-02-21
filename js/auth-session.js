@@ -30,6 +30,8 @@ onAuthStateChanged(auth, (user) => {
         signOut(auth)
           .then(() => {
             console.log("User signed out successfully.");
+            // Redirect to the /login page after logout
+            window.location.href = "/login";
           })
           .catch((error) => {
             console.error("Error signing out:", error);
@@ -37,7 +39,7 @@ onAuthStateChanged(auth, (user) => {
       });
     }
   } else {
-    // If no user is logged in, revert to the default login/signup buttons
+    // Display default login/signup buttons when no user is logged in
     authLinks.innerHTML = `
       <a class="btn btn-outline-secondary py-2 me-3" href="/login">Login</a>
       <a class="btn btn-primary py-2" href="/signup">Sign Up</a>

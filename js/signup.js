@@ -34,10 +34,9 @@ signupForm.addEventListener("submit", async (e) => {
   }
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("Signed up:", userCredential.user);
-    showAlert("success", "Account created successfully!");
-    // Optionally, redirect: window.location.href = "/dashboard";
+    await createUserWithEmailAndPassword(auth, email, password);
+    // Immediately redirect to the root page
+    window.location.href = "/";
   } catch (error) {
     console.error("Sign up error:", error.message);
     showAlert("danger", error.message);
@@ -48,9 +47,9 @@ googleLoginBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   try {
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    console.log("Signed up with Google:", result.user);
-    showAlert("success", "Signed up with Google successfully!");
+    await signInWithPopup(auth, provider);
+    // Immediately redirect to the root page
+    window.location.href = "/";
   } catch (error) {
     console.error("Google sign up error:", error.message);
     showAlert("danger", error.message);

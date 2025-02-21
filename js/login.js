@@ -28,10 +28,9 @@ loginForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value;
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("Logged in:", userCredential.user);
-    showAlert("success", "Logged in successfully!");
-    // Optionally, redirect: window.location.href = "/dashboard";
+    await signInWithEmailAndPassword(auth, email, password);
+    // Immediately redirect to the root page
+    window.location.href = "/";
   } catch (error) {
     console.error("Login error:", error.message);
     showAlert("danger", error.message);
@@ -42,9 +41,9 @@ googleLoginBtn.addEventListener("click", async (e) => {
   e.preventDefault();
   try {
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    console.log("Logged in with Google:", result.user);
-    showAlert("success", "Logged in with Google successfully!");
+    await signInWithPopup(auth, provider);
+    // Immediately redirect to the root page
+    window.location.href = "/";
   } catch (error) {
     console.error("Google login error:", error.message);
     showAlert("danger", error.message);
