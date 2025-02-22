@@ -10,7 +10,7 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
     // Use user's photoURL if available, otherwise use a fallback image
-    const photoURL = user.photoURL || "../assets/img-static/blank-pfp.png";
+    const photoURL = user.photoURL || "/assets/img-static/blank-pfp.png";
     authLinks.innerHTML = `
       <div class="dropdown">
         <a class="nav-link dropdown-toggle p-0" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

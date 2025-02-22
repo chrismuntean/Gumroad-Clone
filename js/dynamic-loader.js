@@ -10,5 +10,5 @@ function loadHTML(elementId, url, callback) {
 }
 
 // Load header and footer
-loadHTML('nav', '../nav.html');
-loadHTML('footer', '../footer.html');
+loadHTML('nav', '/nav.html');
+loadHTML('footer', '/footer.html');

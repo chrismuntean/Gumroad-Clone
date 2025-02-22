@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="Chris Muntean" />
+        <title>Chris Muntean | Photographer - Admin Manage Albums</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"
+            type="text/css" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+            type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="/css/styles.css" rel="stylesheet" />
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+        <!-- Nav loaded dynamically -->
+        <div id="nav"></div>
+
+        <!-- Main Dashboard Content -->
+        <div class="container flex-grow-1 d-flex justify-content-center align-items-center">
+            <div class="text-center w-100">
+                <h1 class="h1 mb-3 fw-bold">Manage Albums</h1>
+
+                <div class="text-end">
+                    <button class="btn btn-primary py-2 mt-4 mb-5">
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Add Album
+                    </button>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Cover image</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Lightroom link</th>
+                            <th scope="col">Single image price</th>
+                            <th scope="col">Full album price</th>
+                            <th scope="col">Watermarked?</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="align-middle">
+
+                            <th scope="row">1</th>
+
+                            <td><img class="rounded" width="200" src="https://lightroom.adobe.com/v2c/spaces/0c468d193c5f4e7090ef3d11becfef9f/assets/b497080f30d3e01f9b5605cda242432f/revisions/be47d006ae36459fbd3a928aba8ddd6e/renditions/cf4006dca5d9395260c25fb25e57b626"></img></td>
+
+                            <td>Love Mansion (Febuary 15th, 2025)</td>
+
+                            <td>
+                                <a href="https://adobe.ly/4102hjk">https://adobe.ly/4102hjk</a>
+                            </td>
+
+                            <td>$1</td>
+
+                            <td>$15</td>
+
+                            <td>YES</td>
+
+                            <td>
+                                <button class="btn btn-outline-warning py-2 mx-1">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                
+                                <button class="btn btn-outline-danger py-2 mx-1">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- footer dynamically loaded via js -->
+        <div id="footer"></div>
+
+        <script src="/js/dynamic-loader.js"></script>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Firebase auth JS -->
+        <script type="module" src="/js/auth-session.js"></script>
+
+        <!-- ALBUM MANAGER JS -->
+        <script type="module" src="../js/admin-albums.js"></script>
+    </body>
+
+</html>

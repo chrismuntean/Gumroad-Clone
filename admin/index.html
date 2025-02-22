@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="Chris Muntean" />
-        <title>Chris Muntean | Photographer</title>
+        <title>Chris Muntean | Photographer - Admin Dashboard</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -15,31 +15,34 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/css/styles.css" rel="stylesheet" />
     </head>
-    <body>
 
+    <body class="d-flex flex-column min-vh-100">
+        <!-- Nav loaded dynamically -->
         <div id="nav"></div>
 
-        <div class="container">
-            <div class="row featurette py-5 mx-3">
+        <!-- Main Dashboard Content -->
+        <div class="container flex-grow-1 d-flex justify-content-center align-items-center">
+            <div class="text-center">
+                <h1 class="mb-4">Admin Dashboard</h1>
+                <a href="manage-albums">
+                    <button id="add-album-btn" class="btn btn-primary mx-3">
+                        <i class="bi bi-image me-2"></i> Manage Albums
+                    </button>
+                </a>
 
-                <div class="col-md-7 order-md-2">
-                  
-                    <h2 class="featurette-heading fw-normal lh-1 pt-5">Your favorite photographer <span class="text-muted">- Chris</span></h2>
+                <a href="manage-watermark">
+                    <button id="add-album-btn" class="btn btn-primary mx-3">
+                        <i class="bi bi-droplet me-2"></i> Manage Watermark
+                    </button>
+                </a>
 
-                    <p class="lead">Need photos for your next event? Let me capture every unforgettable moment—book me today!</p>
-                    <a href="https://chrismuntean.setmore.com/"><button type="button" class="btn btn-outline-secondary">Book now</button></a>
-                
-                </div>
-
-                <div class="col-md-5 order-md-1 mb-3 px-5 mt-3">
-                    <img src="/assets/img-static/chrismuntean.jpg" class="rounded-circle float-end img-fluid" width="250" alt="...">
-                </div>
-              
+                <a href="sales">
+                    <button id="add-album-btn" class="btn btn-primary mx-3">
+                        <i class="bi bi-currency-dollar me-2"></i> Sales
+                    </button>
+                </a>
             </div>
         </div>
-
-        <hr width="90%" class="mx-auto my-4">
-
 
         <!-- footer dynamically loaded via js -->
         <div id="footer"></div>
