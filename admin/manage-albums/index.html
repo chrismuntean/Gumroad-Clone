@@ -27,31 +27,35 @@
         <div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center">
             <div class="text-center w-100">
                 <h1 class="h1 mb-3 fw-bold">Manage Albums</h1>
-                
+
                 <div class="text-end my-3">
                     <button id="add-album-btn" class="btn btn-primary py-2 mt-4 mb-5">
                         <i class="bi bi-plus-lg me-2"></i> Add Album
                     </button>
                 </div>
 
-                <!-- Albums Table -->
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Cover Image</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Lightroom Link</th>
-                            <th scope="col">Single Price</th>
-                            <th scope="col">Full Album Price</th>
-                            <th scope="col">Watermarked?</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Album rows will be inserted here dynamically -->
-                    </tbody>
-                </table>
+                <div class="overflow-scroll">
+                    <!-- Albums Table -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Cover Image</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Event Date</th>
+                                <th scope="col">Host</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Lightroom Link</th>
+                                <th scope="col">Full Album Price</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Album rows will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 
@@ -77,30 +81,88 @@
                                 <input type="url" class="form-control" id="album-cover" placeholder="https://..." required>
                             </div>
                             <div class="mb-3">
-                                <label for="lightroom-link" class="form-label">Lightroom Link</label>
-                                <input type="url" class="form-control" id="lightroom-link" placeholder="https://..."
+                                <label for="album-date" class="form-label">Date</label>
+                                <input type="text" class="form-control" id="album-date"
+                                    placeholder="e.g., February 15th, 2025" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="album-host" class="form-label">Host</label>
+                                <input type="text" class="form-control" id="album-host" placeholder="e.g., John Doe"
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label for="single-price" class="form-label">Single Image Price</label>
-                                <input type="number" class="form-control" id="single-price" placeholder="e.g., 1" required>
+                                <label for="album-description" class="form-label">Description</label>
+                                <textarea class="form-control" id="album-description" rows="3"
+                                    placeholder="Enter a description..." required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lightroom-link" class="form-label">Lightroom Link</label>
+                                <input type="url" class="form-control" id="lightroom-link" placeholder="https://..."
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="full-album-price" class="form-label">Full Album Price</label>
                                 <input type="number" class="form-control" id="full-album-price" placeholder="e.g., 15"
                                     required>
                             </div>
-                            <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" id="watermarked">
-                                <label class="form-check-label" for="watermarked">
-                                    Watermarked
-                                </label>
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" id="save-album-btn" class="btn btn-primary">Save Album</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Editing Album -->
+        <div class="modal fade" id="editAlbumModal" tabindex="-1" aria-labelledby="editAlbumModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAlbumModalLabel">Edit Album</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-album-form">
+                            <div class="mb-3">
+                                <label for="edit-album-title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="edit-album-title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-album-cover" class="form-label">Cover Image URL</label>
+                                <input type="url" class="form-control" id="edit-album-cover" placeholder="https://..." required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-album-date" class="form-label">Date</label>
+                                <input type="text" class="form-control" id="edit-album-date"
+                                    placeholder="e.g., February 15th, 2025" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-album-host" class="form-label">Host</label>
+                                <input type="text" class="form-control" id="edit-album-host" placeholder="e.g., John Doe"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-album-description" class="form-label">Description</label>
+                                <textarea class="form-control" id="edit-album-description" rows="3"
+                                    placeholder="Enter a description..." required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-lightroom-link" class="form-label">Lightroom Link</label>
+                                <input type="url" class="form-control" id="edit-lightroom-link" placeholder="https://..."
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-full-album-price" class="form-label">Full Album Price</label>
+                                <input type="number" class="form-control" id="edit-full-album-price" placeholder="e.g., 15"
+                                    required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="update-album-btn" class="btn btn-primary">Update Album</button>
                     </div>
                 </div>
             </div>
