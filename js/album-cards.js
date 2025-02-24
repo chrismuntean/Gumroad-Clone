@@ -59,7 +59,7 @@ onSnapshot(albumsCol, (snapshot) => {
     // "View album" link – using a query parameter for the album ID
     const viewLink = document.createElement("a");
     viewLink.className = "btn btn-primary";
-    viewLink.href = "/view?album=" + encodeURIComponent(albumId);
+    viewLink.href = "/view/?album=" + encodeURIComponent(albumId);
     viewLink.textContent = "View album";
     cardBody.appendChild(viewLink);
     
