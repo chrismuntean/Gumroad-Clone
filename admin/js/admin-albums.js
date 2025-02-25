@@ -55,7 +55,7 @@ function renderAlbums(snapshot) {
         const img = document.createElement("img");
         img.classList.add("rounded");
         img.width = 200;
-        img.src = album.coverImage || "https://via.placeholder.com/200";
+        img.src = album.coverImage || "/assets/img-static/camera-lens.png";
         img.alt = album.title || "Album Cover";
         coverTd.appendChild(img);
         tr.appendChild(coverTd);

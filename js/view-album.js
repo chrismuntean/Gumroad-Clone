@@ -22,7 +22,7 @@ if (!albumId) {
         // Build the card HTML
         const cardHtml = `
           <div class="card my-5 mx-3" style="width: 75rem;">
-            <img src="${album.coverImage || 'https://via.placeholder.com/1200x400'}" class="card-img-top" alt="${album.title}">
+            <img src="${album.coverImage || '/assets/img-static/camera-lens.png'}" class="card-img-top" alt="${album.title}">
             <div class="card-body p-0">
               <div class="row g-0">
                 <div class="col-md-8 p-4 border-end">
