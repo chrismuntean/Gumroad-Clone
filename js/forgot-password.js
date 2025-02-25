@@ -3,6 +3,24 @@ import { app } from "./firebase-init.js";
 import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
 const auth = getAuth(app);
+
+// Redirect the user to the root page if they're logged
+// Wait for the window to load and a short delay to let auth initialize.
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    if (auth.currentUser) {
+      window.location.href = "/";
+    }
+  }, 500); // 500ms delay; adjust as needed
+  
+  // Optionally, also attach an onAuthStateChanged in case the user logs in later.
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = "/";
+    }
+  });
+});
+
 const forgotPasswordForm = document.getElementById("forgot-password-form");
 const alertContainer = document.getElementById("alert-container");
 
