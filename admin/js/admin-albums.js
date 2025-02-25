@@ -1,4 +1,3 @@
-// admin-albums.js
 import { app } from "/js/firebase-init.js";
 import {
     getFirestore,
@@ -10,21 +9,35 @@ import {
     doc
 } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 
-// Initialize Firestore and reference the "albums" collection
 const db = getFirestore(app);
 const albumsCol = collection(db, "albums");
 
-// Reference to the table body where album rows will be rendered
+// Reference to the table body where album rows will be rendered.
 const tbody = document.querySelector("table tbody");
 
 // Global variable to hold the ID of the album being edited
 let currentEditId = null;
 
-// Function to render albums in the table
+// Function to render albums in the table, sorted by "createdAt" (newest first)
 function renderAlbums(snapshot) {
+    // Build an array of document snapshots.
+    let albumArray = [];
+    snapshot.forEach((docSnap) => {
+        albumArray.push(docSnap);
+    });
+
+    // Sort albums by createdAt timestamp descending (newest first)
+    albumArray.sort((a, b) => {
+        const aTime = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
+        const bTime = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
+        return bTime - aTime;
+    });
+
+    // Clear existing content.
     tbody.innerHTML = "";
     let index = 1;
-    snapshot.forEach((docSnap) => {
+
+    albumArray.forEach((docSnap) => {
         const album = docSnap.data();
         const albumId = docSnap.id;
 
@@ -54,7 +67,13 @@ function renderAlbums(snapshot) {
 
         // Date column
         const dateTd = document.createElement("td");
-        dateTd.textContent = album.date || "-";
+        // Format the createdAt timestamp nicely if available, otherwise use album.date.
+        if (album.createdAt) {
+            const dateObj = album.createdAt.toDate();
+            dateTd.textContent = dateObj.toLocaleString(); // e.g., "February 24, 2025, 8:50:13 PM"
+        } else {
+            dateTd.textContent = album.date || "-";
+        }
         tr.appendChild(dateTd);
 
         // Host column
@@ -97,9 +116,7 @@ function renderAlbums(snapshot) {
         editBtn.classList.add("btn", "btn-outline-warning", "py-2", "mx-1");
         editBtn.innerHTML = '<i class="bi bi-pencil-square"></i>';
         editBtn.addEventListener("click", () => {
-            // Set currentEditId for later use in the update operation
             currentEditId = albumId;
-            // Populate the edit modal with current album data
             document.getElementById("edit-album-title").value = album.title || "";
             document.getElementById("edit-album-cover").value = album.coverImage || "";
             document.getElementById("edit-album-date").value = album.date || "";
@@ -107,8 +124,6 @@ function renderAlbums(snapshot) {
             document.getElementById("edit-album-description").value = album.description || "";
             document.getElementById("edit-lightroom-link").value = album.lightroomLink || "";
             document.getElementById("edit-full-album-price").value = album.fullAlbumPrice || "";
-
-            // Show the edit modal
             const editAlbumModal = new bootstrap.Modal(document.getElementById("editAlbumModal"));
             editAlbumModal.show();
         });
@@ -139,105 +154,3 @@ function renderAlbums(snapshot) {
 
 // Listen for real-time updates in the "albums" collection
 onSnapshot(albumsCol, renderAlbums);
-
-// ===== Modal Integration for Adding Albums =====
-
-// Reference the "Add Album" button and add album modal
-const addAlbumBtn = document.getElementById("add-album-btn");
-const addAlbumModalElement = document.getElementById("addAlbumModal");
-const addAlbumModal = new bootstrap.Modal(addAlbumModalElement);
-
-// Show the Add Album modal when its button is clicked
-addAlbumBtn.addEventListener("click", () => {
-    addAlbumModal.show();
-});
-
-// Handle the "Save Album" button click in the Add Album modal
-const saveAlbumBtn = document.getElementById("save-album-btn");
-saveAlbumBtn.addEventListener("click", async () => {
-    // Collect form values from the Add Album modal
-    const title = document.getElementById("album-title").value.trim();
-    const coverImage = document.getElementById("album-cover").value.trim();
-    const date = document.getElementById("album-date").value.trim();
-    const host = document.getElementById("album-host").value.trim();
-    const description = document.getElementById("album-description").value.trim();
-    const lightroomLink = document.getElementById("lightroom-link").value.trim();
-    const fullAlbumPrice = parseFloat(document.getElementById("full-album-price").value.trim());
-
-    // Basic validation
-    if (!title || !coverImage || !date || !host || !description || !lightroomLink || isNaN(fullAlbumPrice)) {
-        alert("Please fill in all required fields correctly.");
-        return;
-    }
-
-    try {
-        // Save the new album to Firestore
-        const docRef = await addDoc(albumsCol, {
-            title,
-            coverImage,
-            date,
-            host,
-            description,
-            lightroomLink,
-            fullAlbumPrice,
-            createdAt: new Date()
-        });
-        alert("Album added successfully with ID: " + docRef.id);
-        // Hide the Add Album modal and reset its form
-        addAlbumModal.hide();
-        document.getElementById("album-form").reset();
-    } catch (error) {
-        console.error("Error adding album:", error);
-        alert("Error adding album: " + error.message);
-    }
-});
-
-// ===== Modal Integration for Editing Albums =====
-
-// Handle the "Update Album" button click in the Edit Album modal
-const updateAlbumBtn = document.getElementById("update-album-btn");
-updateAlbumBtn.addEventListener("click", async () => {
-    if (!currentEditId) {
-        alert("No album selected for editing.");
-        return;
-    }
-
-    // Collect form values from the Edit Album modal
-    const title = document.getElementById("edit-album-title").value.trim();
-    const coverImage = document.getElementById("edit-album-cover").value.trim();
-    const date = document.getElementById("edit-album-date").value.trim();
-    const host = document.getElementById("edit-album-host").value.trim();
-    const description = document.getElementById("edit-album-description").value.trim();
-    const lightroomLink = document.getElementById("edit-lightroom-link").value.trim();
-    const fullAlbumPrice = parseFloat(document.getElementById("edit-full-album-price").value.trim());
-
-    // Basic validation
-    if (!title || !coverImage || !date || !host || !description || !lightroomLink || isNaN(fullAlbumPrice)) {
-        alert("Please fill in all required fields correctly.");
-        return;
-    }
-
-    try {
-        // Update the album document in Firestore
-        await updateDoc(doc(db, "albums", currentEditId), {
-            title,
-            coverImage,
-            date,
-            host,
-            description,
-            lightroomLink,
-            fullAlbumPrice
-        });
-        alert("Album updated successfully.");
-        // Hide the Edit Album modal and reset its form
-        const editAlbumModalElement = document.getElementById("editAlbumModal");
-        const editAlbumModal = bootstrap.Modal.getInstance(editAlbumModalElement);
-        editAlbumModal.hide();
-        document.getElementById("edit-album-form").reset();
-        // Clear the current edit ID
-        currentEditId = null;
-    } catch (error) {
-        console.error("Error updating album:", error);
-        alert("Error updating album: " + error.message);
-    }
-});
