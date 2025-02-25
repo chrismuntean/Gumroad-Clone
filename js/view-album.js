@@ -10,7 +10,7 @@ const params = new URLSearchParams(window.location.search);
 const albumId = params.get("album");
 
 if (!albumId) {
-  document.getElementById("album-card-container").innerHTML = "<p>Error: No album specified.</p>";
+  document.getElementById("album-card-container").innerHTML = '<h1 class="fw-normal">Error: <span class="text-danger fw-bold">No album specified</span></h1>';
 } else {
   // Fetch the album document from Firestore.
   const albumDocRef = doc(db, "albums", albumId);
@@ -26,10 +26,11 @@ if (!albumId) {
             <div class="card-body p-0">
               <div class="row g-0">
                 <div class="col-md-8 p-4 border-end">
-                  <h1 class="card-title">
+                  <h1 class="card-title fw-normal">
                     ${album.title || "Untitled Album"}
                     ${album.fullAlbumPrice ? `<span class="badge rounded-pill text-bg-success fw-bolder py-2 ms-3">$${album.fullAlbumPrice}</span>` : ""}
                   </h1>
+                  <h5 class="fw-normal text-muted">${album.date}</h5>
                   <hr width="100%" class="my-4">
                   <h3 class="card-text fw-normal">
                     ${album.description || ""}
@@ -85,11 +86,11 @@ if (!albumId) {
           });
         });
       } else {
-        document.getElementById("album-card-container").innerHTML = "<p>Error: Album not found.</p>";
+        document.getElementById("album-card-container").innerHTML = '<h1 class="fw-normal">Error: <span class="text-danger fw-bold">Album not found</span></h1>';
       }
     })
     .catch((error) => {
       console.error("Error fetching album:", error);
-      document.getElementById("album-card-container").innerHTML = `<p>Error fetching album: ${error.message}</p>`;
+      document.getElementById("album-card-container").innerHTML = `<h1 class="fw-normal">Error fetching album: <span class="text-danger fw-bold">${error.message}</span></h1>`;
     });
 }
