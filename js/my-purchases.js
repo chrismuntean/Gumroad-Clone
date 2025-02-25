@@ -57,15 +57,15 @@ window.addEventListener("DOMContentLoaded", () => {
             let cardsHtml = "";
             albumsArray.forEach((album) => {
                 cardsHtml += `
-          <div class="card col m-3 px-0" style="width: 18rem;">
-            <img src="${album.coverImage || 'https://via.placeholder.com/286x180'}" class="card-img-top" alt="${album.title}">
-            <div class="card-body">
-              <h5 class="card-title">${album.title || "Untitled Album"}</h5>
-              <p class="card-text text-muted">${album.date || ""}</p>
-              <a href="${album.lightroomLink}" class="btn btn-primary">View album</a>
-            </div>
-          </div>
-        `;
+                        <div class="card col m-3 px-0" style="width: 18rem;">
+                            <img src="${album.coverImage || '/assets/img-static/camera-lens.png'}" class="card-img-top" alt="${album.title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${album.title || "Untitled Album"}</h5>
+                                <p class="card-text text-muted">${album.date || ""}</p>
+                                <a href="${album.lightroomLink}" target="_blank" class="btn btn-primary">View album</a>
+                            </div>
+                        </div>
+                        `;
             });
 
             rowContainer.innerHTML = cardsHtml;

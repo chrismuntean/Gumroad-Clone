@@ -61,7 +61,6 @@ if (!albumId) {
             }
             try {
               // Build payload: sending albumName, albumId, and price.
-              // Ensure price is in cents (e.g., 1500 for $15.00)
               const payload = {
                 albumName: album.title,
                 albumId: albumId,

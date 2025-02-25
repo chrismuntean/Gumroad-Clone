@@ -16,9 +16,8 @@ window.addEventListener("load", () => {
     if (auth.currentUser) {
       window.location.href = "/";
     }
-  }, 500); // 500ms delay; adjust as needed
+  }, 500); // 500ms delay
   
-  // Optionally, also attach an onAuthStateChanged in case the user logs in later.
   onAuthStateChanged(auth, (user) => {
     if (user) {
       window.location.href = "/";

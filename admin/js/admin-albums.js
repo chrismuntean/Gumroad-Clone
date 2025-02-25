@@ -113,7 +113,7 @@ function renderAlbums(snapshot) {
 
         // Edit Button
         const editBtn = document.createElement("button");
-        editBtn.classList.add("btn", "btn-outline-warning", "py-2", "mx-1");
+        editBtn.classList.add("btn", "btn-outline-warning", "py-2", "mx-1", "my-2");
         editBtn.innerHTML = '<i class="bi bi-pencil-square"></i>';
         editBtn.addEventListener("click", () => {
             currentEditId = albumId;
@@ -131,7 +131,7 @@ function renderAlbums(snapshot) {
 
         // Delete Button
         const deleteBtn = document.createElement("button");
-        deleteBtn.classList.add("btn", "btn-outline-danger", "py-2", "mx-1");
+        deleteBtn.classList.add("btn", "btn-outline-danger", "py-2", "mx-1", "my-2");
         deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
         deleteBtn.addEventListener("click", async () => {
             if (confirm("Are you sure you want to delete this album?")) {

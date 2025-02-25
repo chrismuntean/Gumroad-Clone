@@ -28,7 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     { purchases: arrayUnion(albumId) },
                     { merge: true }
                 );
-                console.log("Purchase logged successfully for album:", albumId); // change to console log in prod
+                console.log("Purchase logged successfully for album:", albumId);
             } catch (error) {
                 alert("Error logging purchase:", error);
             }

@@ -39,7 +39,7 @@ function renderAlbums() {
     const img = document.createElement("img");
     img.className = "card-img-top";
     img.alt = album.title || "Album Cover";
-    img.src = album.coverImage || "https://via.placeholder.com/286x180";
+    img.src = album.coverImage || "/assets/img-static/camera-lens.png";
     cardDiv.appendChild(img);
 
     // Card body.
@@ -76,6 +76,7 @@ function renderAlbums() {
     if (currentUserPurchases && currentUserPurchases.includes(albumId)) {
       // If owned, link to the actual lightroomLink.
       viewLink.href = album.lightroomLink || "#";
+      viewLink.target = "_blank";
     } else {
       // Otherwise, use the standard view route with albumId as query parameter.
       viewLink.href = "/view/?album=" + encodeURIComponent(albumId);
