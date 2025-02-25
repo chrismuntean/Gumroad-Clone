@@ -43,3 +43,5 @@ const firebaseConfig = {
 
 ### Connect with Cloudflare Pages
 To deploy easily with Cloudflare connect Cloudflare to your GitHub account and deploy the main branch. And configure your environment variables manually in the dashboard.
+
+# I'll finish this documentation later if I remember, sorry if I don't!
