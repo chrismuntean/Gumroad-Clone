@@ -19,9 +19,11 @@
 
         <div id="nav"></div>
 
-        <div id="purchase-card-container" class="container flex-grow-1 d-flex justify-content-center align-items-center my-auto">
-            <!-- Album information inserted here -->
-             <h1>No purchases yet</h1>
+        <div id="purchase-card-container" class="container flex-grow-1 justify-content-center align-items-center text-center py-5">
+            <h1 id="header" class="my-5">No purchases yet</h1>
+            <div id="content-row" class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 justify-content-center">
+                <!-- Album cards inserted here -->
+            </div>
         </div>
 
         <!-- footer dynamically loaded via js -->
@@ -35,7 +37,7 @@
         <!-- Firebase auth JS -->
         <script type="module" src="/js/auth-session.js"></script>
 
-        <!-- View album -->
-        <script type="module" src="/js/view-album.js"></script>
+        <!-- Album injector -->
+        <script type="module" src="/js/my-purchases.js"></script>
     </body>
 </html>
