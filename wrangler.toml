@@ -1,7 +1,0 @@
-name = "create-checkout-session"
-type = "javascript"
-
-account_id = "bf06ea681c3d9a2649406c00ef7b5e06"
-workers_dev = false
-route = "https://photos.chrismuntean.dev/create-checkout-session"
-zone_id = "6520aa133cff144407e13368eced44fe"
