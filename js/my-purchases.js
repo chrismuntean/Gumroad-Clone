@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
 
             // If there are purchases, update header and build album cards.
-            headerEl.textContent = "Your albums";
+            headerEl.textContent = "Your purchases";
             const purchases = userDocSnap.data().purchases; // Array of album IDs
             let cardsHtml = "";
 

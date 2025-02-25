@@ -1,27 +1,28 @@
 import { app } from "/js/firebase-init.js";
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Global variable to store current user's purchases
 let currentUserPurchases = null;
-
-// Global variable to store album snapshot data
+// Global variable to store album snapshot data (an array of document snapshots)
 let albumDocs = [];
 
-// Reference to the row container where cards are inserted.
+// Reference to the container row where cards will be injected.
 const rowContainer = document.querySelector(".container.text-center.py-5 .row");
 
 // Function to render album cards using currentUserPurchases and albumDocs.
 function renderAlbums() {
+  // Sort albumDocs by "createdAt" descending (newest first)
+  albumDocs.sort((a, b) => {
+    // If createdAt field is missing, treat it as 0.
+    const aTime = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
+    const bTime = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
+    return bTime - aTime;
+  });
+
   // Clear existing content.
   rowContainer.innerHTML = "";
 
@@ -49,7 +50,7 @@ function renderAlbums() {
     const titleH5 = document.createElement("h5");
     titleH5.className = "card-title";
 
-    // Determine if the album is owned (if purchases have loaded and include this album's ID).
+    // If currentUserPurchases is loaded and contains this album's ID, mark it as OWNED.
     if (currentUserPurchases && currentUserPurchases.includes(albumId)) {
       titleH5.innerHTML = `${album.title || "Untitled Album"} <span class="badge rounded-pill text-bg-primary fw-bolder ms-1">OWNED</span>`;
     } else {
@@ -76,7 +77,7 @@ function renderAlbums() {
       // If owned, link to the actual lightroomLink.
       viewLink.href = album.lightroomLink || "#";
     } else {
-      // Otherwise, use the standard view route.
+      // Otherwise, use the standard view route with albumId as query parameter.
       viewLink.href = "/view/?album=" + encodeURIComponent(albumId);
     }
     viewLink.textContent = "View album";
@@ -87,7 +88,7 @@ function renderAlbums() {
   });
 }
 
-// Listen for auth state changes to load user purchases.
+// Listen for auth state changes to load user's purchases.
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     try {
@@ -102,7 +103,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     currentUserPurchases = null;
   }
-  // Re-render the albums after auth state is determined.
+  // Re-render albums once auth state is determined.
   renderAlbums();
 });
 
