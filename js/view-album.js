@@ -1,7 +1,6 @@
-// view-album.js
 import { app } from "/js/firebase-init.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -20,8 +19,7 @@ if (!albumId) {
       if (docSnap.exists()) {
         const album = docSnap.data();
 
-        // Build the card HTML using template literals.
-        // The "Pay" button now has an id of "pay-btn"
+        // Build the card HTML
         const cardHtml = `
           <div class="card my-5 mx-3" style="width: 75rem;">
             <img src="${album.coverImage || 'https://via.placeholder.com/1200x400'}" class="card-img-top" alt="${album.title}">
@@ -50,40 +48,41 @@ if (!albumId) {
             </div>
           </div>
         `;
-
         document.getElementById("album-card-container").innerHTML = cardHtml;
 
-        // Attach a click event to the Pay button.
+        // Attach click event to "Pay" button using onAuthStateChanged to ensure auth state is ready
         const payBtn = document.getElementById("pay-btn");
-        payBtn.addEventListener("click", async () => {
-          // Check if user is logged in.
-          if (!auth.currentUser) {
-            window.location.href = "/login";
-            return;
-          }
-          try {
-            // Build payload to send to the Cloudflare Worker.
-            const payload = {
-              albumName: album.title,
-              price: album.fullAlbumPrice,  // Ensure this is a number representing price in cents.
-              userEmail: auth.currentUser.email
-            };
-            const response = await fetch("https://create-checkout-session.chrismunt123.workers.dev/", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload)
-            });
-            const data = await response.json();
-            if (data.payment_link.url) {
-              // Redirect to the Square hosted checkout page.
-              window.location.href = data.payment_link.url;
-            } else {
-              alert("Failed to create checkout session.");
+        payBtn.addEventListener("click", () => {
+          onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+              window.location.href = "/login";
+              return;
             }
-          } catch (error) {
-            console.error("Error creating checkout session:", error);
-            alert("Error initiating payment: " + error.message);
-          }
+            try {
+              // Build payload: sending albumName, albumId, and price.
+              // Ensure price is in cents (e.g., 1500 for $15.00)
+              const payload = {
+                albumName: album.title,
+                albumId: albumId,
+                price: album.fullAlbumPrice
+              };
+
+              const response = await fetch("https://create-checkout-session.chrismunt123.workers.dev/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+              });
+              const data = await response.json();
+              if (data.payment_link.url) {
+                window.location.href = data.payment_link.url;
+              } else {
+                alert("Failed to create checkout session.");
+              }
+            } catch (error) {
+              console.error("Error creating checkout session:", error);
+              alert("Error initiating payment: " + error.message);
+            }
+          });
         });
       } else {
         document.getElementById("album-card-container").innerHTML = "<p>Error: Album not found.</p>";
