@@ -2,9 +2,11 @@
 import { app } from "/js/firebase-init.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
+const analytics = getAnalytics(app);
 
 window.addEventListener("DOMContentLoaded", () => {
     // Retrieve the album ID from the URL query parameter (from Square checkout success)
@@ -29,6 +31,13 @@ window.addEventListener("DOMContentLoaded", () => {
                     { merge: true }
                 );
                 console.log("Purchase logged successfully for album:", albumId);
+        
+                // Log the purchase event in Analytics.
+                logEvent(analytics, "purchase", {
+                    albumId: albumId,
+                    userId: user.uid
+                });
+                
             } catch (error) {
                 alert("Error logging purchase:", error);
             }

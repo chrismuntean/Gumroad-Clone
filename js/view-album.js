@@ -1,9 +1,15 @@
 import { app } from "/js/firebase-init.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
 
 const db = getFirestore(app);
 const auth = getAuth(app);
+const analytics = getAnalytics(app);
 
 // Retrieve the album ID from the URL query parameter "album"
 const params = new URLSearchParams(window.location.search);
@@ -60,6 +66,13 @@ if (!albumId) {
               return;
             }
             try {
+              // Log the purchase event using Firebase Analytics.
+              logEvent(analytics, 'purchase_initiated', {
+                albumId: albumId,
+                albumName: album.title,
+                price: album.fullAlbumPrice
+              });
+
               // Build payload: sending albumName, albumId, and price.
               const payload = {
                 albumName: album.title,
