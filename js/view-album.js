@@ -128,9 +128,11 @@ if (!albumId) {
               if (entry.isIntersecting) {
                 // When the main button is visible, hide the sticky footer.
                 stickyFooter.classList.remove("visible");
+                stickyFooter.classList.add("d-none");
               } else {
                 // When the main button is not in view, show the sticky footer.
                 stickyFooter.classList.add("visible");
+                stickyFooter.classList.remove("d-none");
               }
             });
           }, { threshold: 0.1 });
