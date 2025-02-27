@@ -44,7 +44,7 @@ if (!albumId) {
                 </div>
                 <div class="col-md-4 px-4">
                   <div class="container my-4">
-                    <button id="pay-btn" class="btn btn-primary w-100">Pay</button>
+                    <button id="pay-btn" class="btn btn-primary w-100">Purchase album</button>
                     <div class="border border-2 rounded-2 p-3 text-center w-100 my-3 fw-bold font-monospace">
                       Hosted by ${album.host || "Unknown"}
                     </div>
@@ -57,23 +57,35 @@ if (!albumId) {
         `;
         document.getElementById("album-card-container").innerHTML = cardHtml;
 
-        // Attach click event to "Pay" button using onAuthStateChanged to ensure auth state is ready
-        const payBtn = document.getElementById("pay-btn");
-        payBtn.addEventListener("click", () => {
+        // Inject dynamic sticky footer content.
+        const stickyFooter = document.getElementById("sticky-footer");
+        if (stickyFooter) {
+          stickyFooter.innerHTML = `
+            <div class="row">
+              <div class="col text-start mt-1">
+                <h1><span class="badge rounded-pill text-bg-success fw-bolder py-2">$${album.fullAlbumPrice}</span></h1>
+              </div>
+              <div class="col text-end">
+                <button id="sticky-pay-btn" class="btn btn-primary">Purchase album</button>
+              </div>
+            </div>
+          `;
+        }
+
+        // Define the purchase handler, shared between the main and sticky buttons.
+        const purchaseHandler = () => {
           onAuthStateChanged(auth, async (user) => {
             if (!user) {
               window.location.href = "/login";
               return;
             }
             try {
-              // Log the purchase event using Firebase Analytics.
               logEvent(analytics, 'purchase_initiated', {
                 albumId: albumId,
                 albumName: album.title,
                 price: album.fullAlbumPrice
               });
 
-              // Build payload: sending albumName, albumId, and price.
               const payload = {
                 albumName: album.title,
                 albumId: albumId,
@@ -86,7 +98,7 @@ if (!albumId) {
                 body: JSON.stringify(payload)
               });
               const data = await response.json();
-              if (data.payment_link.url) {
+              if (data.payment_link && data.payment_link.url) {
                 window.location.href = data.payment_link.url;
               } else {
                 alert("Failed to create checkout session.");
@@ -96,13 +108,42 @@ if (!albumId) {
               alert("Error initiating payment: " + error.message);
             }
           });
-        });
+        };
+
+        // Attach event handler to the main pay button.
+        const payBtn = document.getElementById("pay-btn");
+        if (payBtn) {
+          payBtn.addEventListener("click", purchaseHandler);
+        }
+        // Attach event handler to the sticky pay button.
+        const stickyPayBtn = document.getElementById("sticky-pay-btn");
+        if (stickyPayBtn) {
+          stickyPayBtn.addEventListener("click", purchaseHandler);
+        }
+
+        // Set up Intersection Observer for the sticky footer.
+        if (payBtn && stickyFooter) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                // When the main button is visible, hide the sticky footer.
+                stickyFooter.classList.remove("visible");
+              } else {
+                // When the main button is not in view, show the sticky footer.
+                stickyFooter.classList.add("visible");
+              }
+            });
+          }, { threshold: 0.1 });
+          observer.observe(payBtn);
+        }
       } else {
-        document.getElementById("album-card-container").innerHTML = '<h1 class="fw-normal">Error: <span class="text-danger fw-bold">Album not found</span></h1>';
+        document.getElementById("album-card-container").innerHTML =
+          '<h1 class="fw-normal">Error: <span class="text-danger fw-bold">Album not found</span></h1>';
       }
     })
     .catch((error) => {
       console.error("Error fetching album:", error);
-      document.getElementById("album-card-container").innerHTML = `<h1 class="fw-normal">Error fetching album: <span class="text-danger fw-bold">${error.message}</span></h1>`;
+      document.getElementById("album-card-container").innerHTML =
+        `<h1 class="fw-normal">Error fetching album: <span class="text-danger fw-bold">${error.message}</span></h1>`;
     });
 }
