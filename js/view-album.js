@@ -1,9 +1,5 @@
 import { app } from "/js/firebase-init.js";
-import {
-  getFirestore,
-  doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
 
@@ -57,22 +53,7 @@ if (!albumId) {
         `;
         document.getElementById("album-card-container").innerHTML = cardHtml;
 
-        // Inject dynamic sticky footer content.
-        const stickyFooter = document.getElementById("sticky-footer");
-        if (stickyFooter) {
-          stickyFooter.innerHTML = `
-            <div class="row">
-              <div class="col text-start mt-1">
-                <h1><span class="badge rounded-pill text-bg-success fw-bolder py-2">$${album.fullAlbumPrice}</span></h1>
-              </div>
-              <div class="col text-end">
-                <button id="sticky-pay-btn" class="btn btn-primary">Purchase album</button>
-              </div>
-            </div>
-          `;
-        }
-
-        // Define the purchase handler, shared between the main and sticky buttons.
+        // Shared purchase handler
         const purchaseHandler = () => {
           onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -80,16 +61,19 @@ if (!albumId) {
               return;
             }
             try {
-              logEvent(analytics, 'purchase_initiated', {
+              // Log the purchase event
+              logEvent(analytics, "purchase_initiated", {
                 albumId: albumId,
                 albumName: album.title,
                 price: album.fullAlbumPrice
               });
 
+              // Build payload including buyerEmail.
               const payload = {
                 albumName: album.title,
                 albumId: albumId,
-                price: album.fullAlbumPrice
+                price: album.fullAlbumPrice,
+                buyerEmail: user.email
               };
 
               const response = await fetch("/api/create-checkout-session", {
@@ -114,29 +98,6 @@ if (!albumId) {
         const payBtn = document.getElementById("pay-btn");
         if (payBtn) {
           payBtn.addEventListener("click", purchaseHandler);
-        }
-        // Attach event handler to the sticky pay button.
-        const stickyPayBtn = document.getElementById("sticky-pay-btn");
-        if (stickyPayBtn) {
-          stickyPayBtn.addEventListener("click", purchaseHandler);
-        }
-
-        // Set up Intersection Observer for the sticky footer.
-        if (payBtn && stickyFooter) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                // When the main button is visible, hide the sticky footer.
-                stickyFooter.classList.remove("visible");
-                stickyFooter.classList.add("d-none");
-              } else {
-                // When the main button is not in view, show the sticky footer.
-                stickyFooter.classList.add("visible");
-                stickyFooter.classList.remove("d-none");
-              }
-            });
-          }, { threshold: 0.1 });
-          observer.observe(payBtn);
         }
       } else {
         document.getElementById("album-card-container").innerHTML =
