@@ -37,7 +37,7 @@ if (!albumId) {
                 <div class="col-md-8 p-4 border-end">
                   <h1 class="card-title fw-normal">
                     ${album.title || "Untitled Album"}
-                    ${album.fullAlbumPrice ? `<span class="badge rounded-pill text-bg-success fw-bolder py-2 ms-3">$${album.fullAlbumPrice}</span>` : ""}
+                    ${album.fullAlbumPrice ? `<span class="badge rounded-pill text-bg-success fw-bolder py-2">$${album.fullAlbumPrice}</span>` : ""}
                   </h1>
                   <h5 class="fw-normal text-muted">${album.date}</h5>
                   <hr width="100%" class="my-4">
