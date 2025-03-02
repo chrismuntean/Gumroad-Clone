@@ -68,11 +68,9 @@ function renderAlbums(snapshot) {
         // Date column
         const dateTd = document.createElement("td");
         if (album.createdAt) {
-            const dateObj = album.createdAt.toDate();
-            dateTd.textContent = dateObj.toLocaleString(); // e.g., "February 24, 2025, 8:50:13 PM"
-        } else {
             dateTd.textContent = album.date || "-";
         }
+        
         tr.appendChild(dateTd);
 
         // Host column
