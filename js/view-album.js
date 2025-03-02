@@ -1,4 +1,4 @@
-// TODO: Fix sticky footer animation. Currently broken due to using "d-none" to fix excess padding issues
+// TODO: Fix sticky footer animation. Currently broken do
 
 import { app } from "/js/firebase-init.js";
 import {
@@ -92,7 +92,8 @@ if (!albumId) {
               const payload = {
                 albumName: album.title,
                 albumId: albumId,
-                price: album.fullAlbumPrice
+                price: album.fullAlbumPrice,
+                buyerEmail: user.email
               };
 
               const response = await fetch("/api/create-checkout-session", {
