@@ -51,7 +51,7 @@ if (!albumId) {
                     <div class="border border-2 rounded-2 p-3 text-center w-100 my-3 fw-bold font-monospace">
                       Hosted by ${album.host || "Unknown"}
                     </div>
-                    <p class="text-center fw-bold">No refunds allowed</p>
+                    <p class="text-center fw-bold font-monospace">No refunds allowed</p>
                   </div>
                 </div>
               </div>
