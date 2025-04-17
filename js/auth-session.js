@@ -58,7 +58,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     // Display default login/signup buttons when no user is logged in
     authLinks.innerHTML = `
-      <a class="btn btn-outline-secondary py-2 me-3" href="/login">Login</a>
+      <a class="btn btn-outline-light py-2 me-3" href="/login">Login</a>
       <a class="btn btn-primary py-2" href="/signup">Sign Up</a>
     `;
   }
