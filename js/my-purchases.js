@@ -1,3 +1,12 @@
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
 window.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("purchase-card-container");
     const rowContainer = document.getElementById("content-row");
