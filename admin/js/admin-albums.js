@@ -26,11 +26,13 @@ function renderAlbums(snapshot) {
         albumArray.push(docSnap);
     });
 
-    // Sort albums by createdAt timestamp descending (newest first)
-    albumArray.sort((a, b) => {
-        const aTime = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
-        const bTime = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
-        return bTime - aTime;
+    albumDocs.sort((a, b) => {
+        const cleanDate = (str) =>
+            new Date(str.replace(/(\d+)(st|nd|rd|th)/, "$1")).getTime();
+
+        const aDate = cleanDate(a.data().date);
+        const bDate = cleanDate(b.data().date);
+        return bDate - aDate;
     });
 
     // Clear existing content.
@@ -70,7 +72,7 @@ function renderAlbums(snapshot) {
         if (album.createdAt) {
             dateTd.textContent = album.date || "-";
         }
-        
+
         tr.appendChild(dateTd);
 
         // Host column
