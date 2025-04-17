@@ -107,9 +107,14 @@ onAuthStateChanged(auth, async (user) => {
 
 // Listen for real-time updates in the "albums" collection.
 onSnapshot(collection(db, "albums"), (snapshot) => {
+  const loader = document.getElementById("album-loader");
+  loader.style.display = "block"; // Show loader
+
   albumDocs = [];
   snapshot.forEach((docSnap) => {
     albumDocs.push(docSnap);
   });
+
   renderAlbums();
+  loader.style.display = "none"; // Hide loader after rendering
 });
