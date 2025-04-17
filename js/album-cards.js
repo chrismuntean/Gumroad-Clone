@@ -15,14 +15,15 @@ const rowContainer = document.querySelector(".container.text-center.py-5 .row");
 
 // Function to render album cards using currentUserPurchases and albumDocs.
 function renderAlbums() {
-  // Sort albumDocs by "createdAt" descending (newest first)
   albumDocs.sort((a, b) => {
-    // If createdAt field is missing, treat it as 0.
-    const aTime = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
-    const bTime = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
-    return bTime - aTime;
-  });
-
+    const cleanDate = (str) =>
+      new Date((str || "").replace(/(\d+)(st|nd|rd|th)/, "$1")).getTime() || 0;
+  
+    const aDate = cleanDate(a.data().date);
+    const bDate = cleanDate(b.data().date);
+    return bDate - aDate;
+  });  
+  
   // Clear existing content.
   rowContainer.innerHTML = "";
 
