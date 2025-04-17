@@ -14,19 +14,44 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/css/styles.css" rel="stylesheet" />
+        <link href="/css/custom.css" rel="stylesheet" />
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
 
         <div id="nav"></div>
 
-        <div class="text-center">
-            <h2 class="fw-bold pt-5">Some of my best shots</h2>
-        </div>
-
-        <hr width="90%" class="mx-auto my-4">
-
-        <div class="container text-center py-5">
-            <!-- Main container -->
+        <!-- Grid container -->
+        <div class="container d-flex flex-grow-1 align-items-center">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center mt-1">
+        
+                <div class="col my-2">
+                    <a href="/portfolio/events" class="custom-card-link">
+                        <div class="custom-card">
+                            <img src="/portfolio/images/events-cover.jpg" alt="Events">
+                            <div class="custom-card-label">EVENTS</div>
+                        </div>
+                    </a>
+                </div>
+        
+                <div class="col my-2">
+                    <a href="/portfolio/concerts" class="custom-card-link">
+                        <div class="custom-card">
+                            <img src="/portfolio/images/concerts-cover.jpg" alt="Concerts">
+                            <div class="custom-card-label">CONCERTS</div>
+                        </div>
+                    </a>
+                </div>
+        
+                <div class="col mt-2 mb-3">
+                    <a href="/portfolio/private-shoots" class="custom-card-link">
+                        <div class="custom-card">
+                            <img src="/portfolio/images/private-shoots-cover.jpg" alt="Private Shoots">
+                            <div class="custom-card-label">PRIVATE SHOOTS</div>
+                        </div>
+                    </a>
+                </div>
+        
+            </div>
         </div>
 
         <!-- footer dynamically loaded via js -->
@@ -39,8 +64,5 @@
 
         <!-- Firebase auth JS -->
         <script type="module" src="/js/auth-session.js"></script>
-
-        <!-- Album cards -->
-        <script type="module" src="/js/portfolio.js"></script>
     </body>
 </html>
