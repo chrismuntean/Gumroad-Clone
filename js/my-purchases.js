@@ -45,12 +45,12 @@ window.addEventListener("DOMContentLoaded", () => {
                     console.warn(`Album with ID ${albumId} not found.`);
                 }
             }
-
-            // Sort albums by createdAt (newest first). If createdAt is missing, treat as 0.
+            
+            // Sort by album.date descending (newest first)
             albumsArray.sort((a, b) => {
-                const aTime = a.createdAt ? a.createdAt.toMillis() : 0;
-                const bTime = b.createdAt ? b.createdAt.toMillis() : 0;
-                return bTime - aTime;
+                const cleanDate = (str) =>
+                    new Date(str.replace(/(\d+)(st|nd|rd|th)/, "$1")).getTime();
+                return cleanDate(b.date) - cleanDate(a.date);
             });
 
             // Build HTML for each album card.

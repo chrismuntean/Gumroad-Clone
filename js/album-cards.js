@@ -17,13 +17,13 @@ const rowContainer = document.querySelector(".container.text-center.py-5 .row");
 function renderAlbums() {
   albumDocs.sort((a, b) => {
     const cleanDate = (str) =>
-      new Date((str || "").replace(/(\d+)(st|nd|rd|th)/, "$1")).getTime() || 0;
-  
+      new Date(str.replace(/(\d+)(st|nd|rd|th)/, "$1")).getTime();
+
     const aDate = cleanDate(a.data().date);
     const bDate = cleanDate(b.data().date);
     return bDate - aDate;
-  });  
-  
+  });
+
   // Clear existing content.
   rowContainer.innerHTML = "";
 
@@ -39,8 +39,8 @@ function renderAlbums() {
     // Card image.
     const img = document.createElement("img");
     img.className = "card-img-top";
-    img.alt = album.title || "Album Cover";
-    img.src = album.coverImage || "/assets/img-static/camera-lens.png";
+    img.alt = album.title;
+    img.src = album.coverImage;
     cardDiv.appendChild(img);
 
     // Card body.
@@ -51,11 +51,10 @@ function renderAlbums() {
     const titleH5 = document.createElement("h5");
     titleH5.className = "card-title";
 
-    // If currentUserPurchases is loaded and contains this album's ID, mark it as OWNED.
     if (currentUserPurchases && currentUserPurchases.includes(albumId)) {
-      titleH5.innerHTML = `${album.title || "Untitled Album"} <span class="badge rounded-pill text-bg-primary fw-bolder ms-1">OWNED</span>`;
+      titleH5.innerHTML = `${album.title} <span class="badge rounded-pill text-bg-primary fw-bolder ms-1">OWNED</span>`;
     } else {
-      titleH5.textContent = album.title || "Untitled Album";
+      titleH5.textContent = album.title;
       if (album.fullAlbumPrice) {
         const badge = document.createElement("span");
         badge.className = "badge rounded-pill text-bg-success fw-bolder ms-1";
@@ -68,18 +67,16 @@ function renderAlbums() {
     // Date text.
     const dateP = document.createElement("p");
     dateP.className = "card-text text-muted";
-    dateP.textContent = album.date || "";
+    dateP.textContent = album.date;
     cardBody.appendChild(dateP);
 
     // "View album" link.
     const viewLink = document.createElement("a");
     viewLink.className = "btn btn-primary";
     if (currentUserPurchases && currentUserPurchases.includes(albumId)) {
-      // If owned, link to the actual lightroomLink.
-      viewLink.href = album.lightroomLink || "#";
+      viewLink.href = album.lightroomLink;
       viewLink.target = "_blank";
     } else {
-      // Otherwise, use the standard view route with albumId as query parameter.
       viewLink.href = "/view/?album=" + encodeURIComponent(albumId);
     }
     viewLink.textContent = "View album";
@@ -96,7 +93,7 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
-      currentUserPurchases = userDocSnap.exists() ? userDocSnap.data().purchases || [] : [];
+      currentUserPurchases = userDocSnap.exists() ? userDocSnap.data().purchases : [];
       console.log("Loaded purchases:", currentUserPurchases);
     } catch (error) {
       console.error("Error fetching user document:", error);
@@ -105,7 +102,6 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     currentUserPurchases = null;
   }
-  // Re-render albums once auth state is determined.
   renderAlbums();
 });
 
