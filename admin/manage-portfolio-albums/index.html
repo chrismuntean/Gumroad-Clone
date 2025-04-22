@@ -26,7 +26,8 @@
         <!-- Main Content -->
         <div class="container flex-grow-1 d-flex flex-column justify-content-center align-items-center mb-5">
             <div class="text-center w-100">
-                <h1 class="h1 mb-3 mt-5 fw-bold">Manage Albums</h1>
+                <h1 class="h1 mb-3 mt-5 fw-bold">Manage Portfolio Albums</h1>
+                <h5 class="h5 mb-4">Manage your portfolio albums here.</h5>
 
                 <div class="row">
                     <div class="col text-start my-3">
@@ -52,12 +53,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Cover Image</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Event Date</th>
-                                <th scope="col">Host</th>
-                                <th scope="col">Description</th>
                                 <th scope="col">Lightroom Link</th>
-                                <th scope="col">Full Album Price</th>
-                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,28 +87,8 @@
                                 <input type="url" class="form-control" id="album-cover" placeholder="https://..." required>
                             </div>
                             <div class="mb-3">
-                                <label for="album-date" class="form-label">Date</label>
-                                <input type="text" class="form-control" id="album-date"
-                                    placeholder="e.g., February 15th, 2025" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="album-host" class="form-label">Host</label>
-                                <input type="text" class="form-control" id="album-host" placeholder="e.g., John Doe"
-                                    required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="album-description" class="form-label">Description</label>
-                                <textarea class="form-control" id="album-description" rows="3"
-                                    placeholder="Enter a description..." required></textarea>
-                            </div>
-                            <div class="mb-3">
                                 <label for="lightroom-link" class="form-label">Lightroom Link</label>
                                 <input type="url" class="form-control" id="lightroom-link" placeholder="https://..."
-                                    required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="full-album-price" class="form-label">Full Album Price</label>
-                                <input type="number" class="form-control" id="full-album-price" placeholder="e.g., 15"
                                     required>
                             </div>
                         </form>
@@ -183,8 +159,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Firebase auth JS -->
         <script type="module" src="/js/auth-session.js"></script>
-        <!-- Admin Albums JS -->
-        <script type="module" src="../js/admin-albums.js"></script>
+        <!-- Admin Portfolio JS -->
+        <script type="module" src="../js/admin-portfolio.js"></script>
     </body>
-
 </html>
