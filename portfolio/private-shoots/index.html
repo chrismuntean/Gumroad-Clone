@@ -24,7 +24,17 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center mt-1">
         
                 <img src="/portfolio/images/private-shoots-cover.jpg">
+
+                <img src="https://lightroom.adobe.com/v2c/spaces/355e17252a40492792cbc64b719cbfde/assets/9bce134a1a25f27e37df38b2ee863e00/revisions/1a9d077d243a4697a0d5b3c693a5c17a/renditions/47f85ec6a23932ea27e2216e8d61424c">
         
+                <script>
+                    lightroomUrl = "https://lightroom.adobe.com/v2/spaces/355e17252a40492792cbc64b719cbfde/albums/b22bd06d64bc46d390f1e631a420c1d5/assets?embed=asset%3Buser&order_after=-&exclude=incomplete&subtype=image%3Bvideo%3Blayout_segment"
+
+                    fetch(lightroomUrl, { mode: 'cors' })
+                        .then(r => console.log(r.headers.get('access-control-allow-origin')));
+                
+                </script>
+
             </div>
         </div>
 

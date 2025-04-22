@@ -1,0 +1,1 @@
+// Cloudflare worker function to get the individual photos in a photo album for the <img> tags
