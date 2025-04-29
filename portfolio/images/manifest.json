@@ -1,0 +1,21 @@
+{
+    "concerts": [
+        "band1.jpg",
+        "band2.jpg",
+        "crowd-shot.png"
+    ],
+    "events": [
+        "event1.jpg",
+        "event2.jpg"
+    ],
+    "private-shoots": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg",
+        "6.jpg",
+        "7.jpg",
+        "8.jpg"
+    ]
+}
