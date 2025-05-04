@@ -36,6 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 img.alt = filename;
                 img.className = 'img-fluid';
 
+                img.onload = function () {
+                    if (img.naturalWidth > img.naturalHeight) {
+                        img.classList.add('w-100');
+                    }
+                };
+
                 container.appendChild(img);
             });
         })
